@@ -10,17 +10,22 @@ func init() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 }
 
-func Do() {
+func Do(standalone bool) {
 	args := &service.Args{
 		A: 7,
 		B: 8,
 	}
 	reply := &service.Reply{}
 
-	//f := service.NewRawFunc()
-	f, err := service.NewRPCFunc()
-	if err != nil {
-		log.Fatalln(err)
+	var f service.Func
+	if standalone {
+		f = service.NewRawFunc()
+	} else {
+		var err error
+		f, err = service.NewRPCFunc()
+		if err != nil {
+			log.Fatalln(err)
+		}
 	}
 
 	if err := f.Add(args, reply); err != nil {
