@@ -10,6 +10,6 @@ func Execute() {
 	}
 
 	cmd.AddCommand(NewDeamonCommand())
-	cmd.AddCommand(NewClientCommand())
+	cmd.AddCommand(&clientCmd)
 	cobra.CheckErr(cmd.Execute())
 }
