@@ -26,5 +26,5 @@ func (f *RPCFunc) Add(args *Args, reply *Reply) error {
 }
 
 func (f *RPCFunc) Sub(args *Args, reply *Reply) error {
-	return f.client.Call("RawFunc.Add", args, &reply)
+	return f.client.Call("RawFunc.Sub", args, &reply)
 }
