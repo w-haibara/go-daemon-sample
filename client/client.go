@@ -2,10 +2,8 @@ package client
 
 import (
 	"fmt"
-	"go-deamon-sample/deamon"
-	"go-deamon-sample/util"
+	"go-deamon-sample/service"
 	"log"
-	"net/rpc"
 )
 
 func init() {
@@ -13,24 +11,25 @@ func init() {
 }
 
 func Do() {
-	client, err := rpc.DialHTTP("unix", util.UnixDomainPath)
-	if err != nil {
-		log.Fatalln("dialing:", err)
-	}
-
-	args := &deamon.Args{
+	args := &service.Args{
 		A: 7,
 		B: 8,
 	}
-	reply := &deamon.Reply{}
+	reply := &service.Reply{}
 
-	if err = client.Call("Func.Add", args, &reply); err != nil {
+	//f := service.NewRawFunc()
+	f, err := service.NewRPCFunc()
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if err := f.Add(args, reply); err != nil {
 		log.Fatalln("func error:", err)
 	}
-	fmt.Printf("Func.Add(%d, %d) = %d\n", args.A, args.B, reply.C)
+	fmt.Printf("Add(%d, %d) = %d\n", args.A, args.B, reply.C)
 
-	if err = client.Call("Func.Sub", args, &reply); err != nil {
+	if err := f.Sub(args, reply); err != nil {
 		log.Fatalln("func error:", err)
 	}
-	fmt.Printf("Func.Sub(%d, %d) = %d\n", args.A, args.B, reply.C)
+	fmt.Printf("Sub(%d, %d) = %d\n", args.A, args.B, reply.C)
 }

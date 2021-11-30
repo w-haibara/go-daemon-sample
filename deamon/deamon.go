@@ -1,6 +1,7 @@
 package deamon
 
 import (
+	"go-deamon-sample/service"
 	"go-deamon-sample/util"
 	"log"
 	"net"
@@ -13,29 +14,8 @@ func init() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 }
 
-type Func struct {
-}
-
-type Args struct {
-	A, B int
-}
-
-type Reply struct {
-	C int
-}
-
-func (f *Func) Add(args *Args, reply *Reply) error {
-	reply.C = args.A + args.B
-	return nil
-}
-
-func (f *Func) Sub(args *Args, reply *Reply) error {
-	reply.C = args.A - args.B
-	return nil
-}
-
 func Do() {
-	f := new(Func)
+	f := new(service.RawFunc)
 	if err := rpc.Register(f); err != nil {
 		log.Fatalln(err)
 	}
