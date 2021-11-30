@@ -1,11 +1,11 @@
 package client
 
 import (
-	"bufio"
+	"fmt"
+	"go-deamon-sample/deamon"
 	"go-deamon-sample/util"
-	"io"
 	"log"
-	"net"
+	"net/rpc"
 )
 
 func init() {
@@ -13,22 +13,24 @@ func init() {
 }
 
 func Do() {
-	conn, err := net.Dial("unix", util.UnixDomainPath)
+	client, err := rpc.DialHTTP("unix", util.UnixDomainPath)
 	if err != nil {
-		panic(err)
+		log.Fatalln("dialing:", err)
 	}
 
-	msg := []byte("hello\n")
-	log.Printf("SEND: %s\n", msg)
-	if _, err := conn.Write(msg); err != nil {
-		panic(err)
+	args := &deamon.Args{
+		A: 7,
+		B: 8,
 	}
+	reply := &deamon.Reply{}
 
-	r := bufio.NewReader(conn)
-	line, err := r.ReadBytes(byte('\n'))
-	if err != nil && err != io.EOF {
-		log.Fatalln("[ERROR]", err)
+	if err = client.Call("Func.Add", args, &reply); err != nil {
+		log.Fatalln("func error:", err)
 	}
+	fmt.Printf("Func.Add(%d, %d) = %d\n", args.A, args.B, reply.C)
 
-	log.Printf("RESP: %s\n", line)
+	if err = client.Call("Func.Sub", args, &reply); err != nil {
+		log.Fatalln("func error:", err)
+	}
+	fmt.Printf("Func.Sub(%d, %d) = %d\n", args.A, args.B, reply.C)
 }

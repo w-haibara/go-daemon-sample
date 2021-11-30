@@ -1,11 +1,11 @@
 package deamon
 
 import (
-	"bufio"
 	"go-deamon-sample/util"
-	"io"
 	"log"
 	"net"
+	"net/http"
+	"net/rpc"
 	"os"
 )
 
@@ -13,36 +13,42 @@ func init() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 }
 
+type Func struct {
+}
+
+type Args struct {
+	A, B int
+}
+
+type Reply struct {
+	C int
+}
+
+func (f *Func) Add(args *Args, reply *Reply) error {
+	reply.C = args.A + args.B
+	return nil
+}
+
+func (f *Func) Sub(args *Args, reply *Reply) error {
+	reply.C = args.A - args.B
+	return nil
+}
+
 func Do() {
-	os.Remove(util.UnixDomainPath)
-	listener, err := net.Listen("unix", util.UnixDomainPath)
-	if err != nil {
-		panic(err)
+	f := new(Func)
+	if err := rpc.Register(f); err != nil {
+		log.Fatalln(err)
 	}
-	defer listener.Close()
 
-	for {
-		conn, err := listener.Accept()
-		if err != nil {
-			panic(err)
-		}
+	os.Remove(util.UnixDomainPath)
+	l, err := net.Listen("unix", util.UnixDomainPath)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer l.Close()
 
-		go func() {
-			defer conn.Close()
-
-			r := bufio.NewReader(conn)
-			line, err := r.ReadBytes(byte('\n'))
-			if err != nil && err != io.EOF {
-				log.Println("[ERROR]", err)
-				return
-			}
-			log.Printf("REQ:%s\n", line)
-
-			if _, err := conn.Write(line); err != nil {
-				log.Println("[ERROR]", err)
-				return
-			}
-			log.Printf("SEND:%s\n", line)
-		}()
+	rpc.HandleHTTP()
+	if err := http.Serve(l, nil); err != nil {
+		log.Fatalln(err)
 	}
 }
