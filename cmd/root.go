@@ -9,7 +9,7 @@ func Execute() {
 		Use: "go-deamon-sample",
 	}
 
-	cmd.AddCommand(NewDeamonCommand())
+	cmd.AddCommand(&deamonCmd)
 	cmd.AddCommand(&clientCmd)
 	cobra.CheckErr(cmd.Execute())
 }

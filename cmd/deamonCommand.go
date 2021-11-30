@@ -6,12 +6,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func NewDeamonCommand() *cobra.Command {
-	cmd := cobra.Command{
+var (
+	deamonCmd = cobra.Command{
 		Use: "deamon",
 		Run: func(cmd *cobra.Command, args []string) {
 			deamon.Do()
 		},
 	}
-	return &cmd
-}
+)
