@@ -6,5 +6,5 @@ import (
 )
 
 var (
-	UnixDomainPath = filepath.Join(os.TempDir(), "go-deamon-sample.sock")
+	UnixDomainPath = filepath.Join(os.TempDir(), "go-daemon-sample.sock")
 )

@@ -1,16 +1,16 @@
 package cmd
 
 import (
-	"go-deamon-sample/deamon"
+	"go-daemon-sample/daemon"
 
 	"github.com/spf13/cobra"
 )
 
 var (
-	deamonCmd = cobra.Command{
-		Use: "deamon",
+	daemonCmd = cobra.Command{
+		Use: "daemon",
 		Run: func(cmd *cobra.Command, args []string) {
-			deamon.Do()
+			daemon.Do()
 		},
 	}
 )

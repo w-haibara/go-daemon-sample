@@ -6,10 +6,10 @@ import (
 
 func Execute() {
 	var cmd = &cobra.Command{
-		Use: "go-deamon-sample",
+		Use: "go-daemon-sample",
 	}
 
-	cmd.AddCommand(&deamonCmd)
+	cmd.AddCommand(&daemonCmd)
 	cmd.AddCommand(&clientCmd)
 	cobra.CheckErr(cmd.Execute())
 }

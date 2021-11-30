@@ -1,7 +1,7 @@
 package service
 
 import (
-	"go-deamon-sample/util"
+	"go-daemon-sample/util"
 	"net/rpc"
 )
 

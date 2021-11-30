@@ -1,8 +1,8 @@
-package deamon
+package daemon
 
 import (
-	"go-deamon-sample/service"
-	"go-deamon-sample/util"
+	"go-daemon-sample/service"
+	"go-daemon-sample/util"
 	"log"
 	"net"
 	"net/http"

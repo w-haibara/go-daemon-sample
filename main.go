@@ -1,6 +1,6 @@
 package main
 
-import "go-deamon-sample/cmd"
+import "go-daemon-sample/cmd"
 
 func main() {
 	cmd.Execute()

@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"go-deamon-sample/client"
+	"go-daemon-sample/client"
 	"log"
 	"os"
 	"strconv"

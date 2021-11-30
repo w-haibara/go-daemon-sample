@@ -2,7 +2,7 @@ package client
 
 import (
 	"fmt"
-	"go-deamon-sample/service"
+	"go-daemon-sample/service"
 	"log"
 )
 

@@ -1,2 +1,2 @@
-# go-deamon-sample
-Golang deamon/client sample
+# go-daemon-sample
+Golang daemon/client sample

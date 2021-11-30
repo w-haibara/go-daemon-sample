@@ -1,4 +1,4 @@
-module go-deamon-sample
+module go-daemon-sample
 
 go 1.17
 
